@@ -147,20 +147,23 @@ After the image, also generate a short caption describing fit and style.
         # ---- Call External Backend ----
         external_image_url = None
         external_error_message = None
-        try:
-            external_image_url = call_external_tryon_backend(
-                person_bytes, 
-                cloth_bytes, 
-                person_image.content_type, 
-                cloth_image.content_type
-            )
-            external_success = external_image_url is not None
-            if not external_success:
-                external_error_message = "External backend returned no image"
-        except Exception as e:
-            print(f"External backend call failed: {str(e)}")
-            external_success = False
-            external_error_message = str(e)
+        external_success = None
+        
+        if model_type == "top":
+            try:
+                external_image_url = call_external_tryon_backend(
+                    person_bytes, 
+                    cloth_bytes, 
+                    person_image.content_type, 
+                    cloth_image.content_type
+                )
+                external_success = external_image_url is not None
+                if not external_success:
+                    external_error_message = "External backend returned no image"
+            except Exception as e:
+                print(f"External backend call failed: {str(e)}")
+                external_success = False
+                external_error_message = str(e)
 
         # Check if at least one service succeeded
         if not openai_success and not external_success:
