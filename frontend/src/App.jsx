@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"; // Added imports
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,11 +25,14 @@ import {
 } from "@ant-design/icons";
 
 import ImageUpload from "./components/ImageUpload";
-import Footer from './components/Footer'; 
+import Footer from './components/Footer';
+import LandingPage from "./components/LandingPage"; // Added import
+
 const { Header, Content} = Layout;
 const { Title, Text } = Typography;
 
-function App() {
+// Main Try-On Page Component
+function TryOnPage() {
   const [personImage, setPersonImage] = useState(null);
   const [clothImage, setClothImage] = useState(null);
   const [instructions, setInstructions] = useState("");
@@ -48,6 +52,7 @@ function App() {
   const { Option } = Select;
 
   const resultRef = useRef(null);
+  const navigate = useNavigate(); // Added navigate
 
   const { defaultAlgorithm, darkAlgorithm } = theme;
 
@@ -129,9 +134,18 @@ function App() {
             padding: "1.5rem 2rem",
           }}
         >
-          <Title level={3} style={{ margin: 0, color: textColor }}>
-            👗 Virtual Try-On
-          </Title>
+          <Space>
+            <Button 
+              type="text" 
+              onClick={() => navigate('/')} // Added navigation to landing page
+              style={{ color: textColor }}
+            >
+              ← Back to Home
+            </Button>
+            <Title level={3} style={{ margin: 0, color: textColor }}>
+              👗 Virtual Try-On
+            </Title>
+          </Space>
           <Switch
             checked={isDarkMode}
             onChange={setIsDarkMode}
@@ -506,6 +520,18 @@ function App() {
         <ToastContainer theme={isDarkMode ? "dark" : "light"} />
       </Layout>
     </ConfigProvider>
+  );
+}
+
+// Updated App Component with Routing
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/try-on" element={<TryOnPage />} />
+      </Routes>
+    </Router>
   );
 }
 
