@@ -220,10 +220,10 @@ function TryOnPage() {
           }}
         >
           <Space>
-            <Button 
-              type="text" 
+            <Button
+              type="text"
               onClick={() => navigate('/')} // Added navigation to landing page
-              style={{ color: textColor }}
+              style={{ color: 'white' }}
             >
               ← Back to Home
             </Button>
