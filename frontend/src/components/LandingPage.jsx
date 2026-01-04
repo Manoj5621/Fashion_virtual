@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   Button,
   Typography,
@@ -63,6 +65,9 @@ function LandingPage() {
   const featuresRef = useRef(null);
   const howItWorksRef = useRef(null);
   const testimonialsRef = useRef(null);
+  const techRef = useRef(null);
+  const usecasesRef = useRef(null);
+  const ctaRef = useRef(null);
   
   const features = [
     {
@@ -183,6 +188,28 @@ function LandingPage() {
     return () => clearInterval(interval);
   }, [images.length, currentImageIndex, nextImageIndex]);
 
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const sections = [featuresRef.current, howItWorksRef.current, techRef.current, usecasesRef.current, ctaRef.current];
+    sections.forEach(section => {
+      if (section) {
+        gsap.set(section, { opacity: 0, y: 50 });
+        gsap.to(section, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse"
+          }
+        });
+      }
+    });
+  }, []);
+
   const handleGetStarted = () => {
     navigate('/try-on');
   };
@@ -222,13 +249,6 @@ function LandingPage() {
               className="cta-button"
             >
               Start Virtual Try-On
-            </Button>
-            <Button 
-              size="large" 
-              icon={<PlayCircleOutlined />}
-              className="demo-button"
-            >
-              Watch Demo
             </Button>
           </Space>
           
@@ -290,7 +310,7 @@ function LandingPage() {
       </section>
 
       {/* Technology Stack */}
-      <section className="tech-section">
+      <section className="tech-section" ref={techRef}>
         <div className="section-header">
           <Title level={2} className="section-title">
             Powered By Advanced Technology Stack
@@ -315,7 +335,7 @@ function LandingPage() {
      </section>
 
             {/* Use Cases */}
-      <section className="usecases-section">
+      <section className="usecases-section" ref={usecasesRef}>
         <video className="usecases-video" autoPlay loop muted playsInline>
           <source src={bgVideo} type="video/mp4" />
         </video>
@@ -344,9 +364,13 @@ function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="cta-section">
+      <section className="cta-section" ref={ctaRef}>
         <div className="cta-background">
           <div className="cta-gradient"></div>
+          <div className="fashion-dress-1"></div>
+          <div className="fashion-dress-2"></div>
+          <div className="fashion-dress-3"></div>
+          <div className="fashion-fabric-pattern"></div>
         </div>
         
         <div className="cta-content">
