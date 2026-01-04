@@ -87,7 +87,8 @@ function App() {
 
       const newResult = {
         id: Date.now(),
-        resultImage: response.data.image,
+        openaiImage: response.data.openai_image,
+        externalImage: response.data.external_image,
         text: response.data.text,
         timestamp: new Date().toLocaleString(),
       };
@@ -327,24 +328,75 @@ function App() {
                     marginBottom: 32,
                   }}
                 >
-                  Your Try-On Result
+                  Your Try-On Results
                 </Title>
-                <div className="flex justify-center">
-                  <img
-                    src={result.resultImage}
-                    alt="Try-On Result"
-                    style={{
-                      borderRadius: 16,
-                      boxShadow: "0 10px 40px rgba(0,0,0,0.3)",
-                      maxHeight: 480,
-                    }}
-                  />
-                </div>
+                <Row gutter={[32, 32]}>
+                  {result.openaiImage && (
+                    <Col xs={24} md={12}>
+                      <div
+                        style={{
+                          background: cardColor,
+                          padding: 24,
+                          borderRadius: 16,
+                          textAlign: "center",
+                        }}
+                      >
+                        <Title
+                          level={4}
+                          style={{ color: textColor, marginBottom: 16 }}
+                        >
+                          OpenAI Virtual Try-On
+                        </Title>
+                        <img
+                          src={result.openaiImage}
+                          alt="OpenAI Try-On Result"
+                          style={{
+                            borderRadius: 12,
+                            boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+                            maxHeight: 400,
+                            width: "100%",
+                            objectFit: "contain",
+                          }}
+                        />
+                      </div>
+                    </Col>
+                  )}
+                  {result.externalImage && (
+                    <Col xs={24} md={12}>
+                      <div
+                        style={{
+                          background: cardColor,
+                          padding: 24,
+                          borderRadius: 16,
+                          textAlign: "center",
+                        }}
+                      >
+                        <Title
+                          level={4}
+                          style={{ color: textColor, marginBottom: 16 }}
+                        >
+                          External Virtual Try-On
+                        </Title>
+                        <img
+                          src={result.externalImage}
+                          alt="External Try-On Result"
+                          style={{
+                            borderRadius: 12,
+                            boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+                            maxHeight: 400,
+                            width: "100%",
+                            objectFit: "contain",
+                          }}
+                        />
+                      </div>
+                    </Col>
+                  )}
+                </Row>
                 <Text
                   style={{
                     display: "block",
                     textAlign: "center",
-                    marginTop: 16,
+                    marginTop: 24,
                     color: isDarkMode ? "#ffffff" : "#000000",
                     fontSize: "1.25rem",
                     fontWeight: "600"
@@ -371,20 +423,61 @@ function App() {
                           borderRadius: 12,
                         }}
                       >
-                        <img
-                          src={item.resultImage}
-                          alt="Previous"
-                          style={{
-                            width: "100%",
-                            borderRadius: 10,
-                            marginBottom: 12,
-                          }}
-                        />
+                        <div className="space-y-4">
+                          {item.openaiImage && (
+                            <div>
+                              <Text
+                                style={{
+                                  display: "block",
+                                  color: isDarkMode ? "#38bdf8" : "#1677ff",
+                                  fontSize: 12,
+                                  fontWeight: "600",
+                                  marginBottom: 8,
+                                }}
+                              >
+                                OpenAI
+                              </Text>
+                              <img
+                                src={item.openaiImage}
+                                alt="OpenAI Previous"
+                                style={{
+                                  width: "100%",
+                                  borderRadius: 8,
+                                  marginBottom: 8,
+                                }}
+                              />
+                            </div>
+                          )}
+                          {item.externalImage && (
+                            <div>
+                              <Text
+                                style={{
+                                  display: "block",
+                                  color: isDarkMode ? "#34d399" : "#10b981",
+                                  fontSize: 12,
+                                  fontWeight: "600",
+                                  marginBottom: 8,
+                                }}
+                              >
+                                External
+                              </Text>
+                              <img
+                                src={item.externalImage}
+                                alt="External Previous"
+                                style={{
+                                  width: "100%",
+                                  borderRadius: 8,
+                                  marginBottom: 8,
+                                }}
+                              />
+                            </div>
+                          )}
+                        </div>
                         <Text
                           style={{
                             display: "block",
                             color: isDarkMode ? "#ffffff" : "#000000",
-                            fontSize: "1.25rem",
+                            fontSize: "1rem",
                             fontWeight: "600",
                             marginBottom: 4,
                           }}
