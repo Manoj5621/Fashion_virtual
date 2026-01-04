@@ -97,9 +97,8 @@ function App() {
       setHistory((prev) => [newResult, ...prev]);
       toast.success("Virtual try-on completed successfully!");
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "An error occurred during processing"
-      );
+      const errorMessage = error.response?.data?.detail || error.response?.data?.message || "An error occurred during processing";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
