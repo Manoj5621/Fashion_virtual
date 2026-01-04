@@ -16,8 +16,7 @@ import {
   Badge,
   Tag,
   Progress,
-  Divider,
-  FloatButton
+  Divider
 } from 'antd';
 import {
   RocketOutlined,
@@ -415,14 +414,6 @@ function LandingPage() {
           </div>
         </div>
       </section>
-
-      {/* Floating Action Button */}
-      <FloatButton 
-        type="primary" 
-        icon={<ArrowRightOutlined />}
-        onClick={handleGetStarted}
-        tooltip="Get Started"
-      />
     </div>
   );
 }
