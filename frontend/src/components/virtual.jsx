@@ -223,7 +223,7 @@ function TryOnPage() {
             <Button
               type="text"
               onClick={() => navigate('/')} // Added navigation to landing page
-              style={{ color: 'white' }}
+              style={{ color: 'black' }}
             >
               ← Back to Home
             </Button>
