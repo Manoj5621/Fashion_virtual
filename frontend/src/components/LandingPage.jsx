@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 import {
   Button,
   Typography,
@@ -45,6 +46,7 @@ const { Title, Text, Paragraph } = Typography;
 
 function LandingPage() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [scrollY, setScrollY] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [nextImageIndex, setNextImageIndex] = useState(1);
@@ -182,8 +184,18 @@ function LandingPage() {
     navigate('/try-on');
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <div className="landing-page">
+      <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 1000 }}>
+        <Button onClick={handleLogout} type="primary" danger>
+          Logout
+        </Button>
+      </div>
       <section className="hero-section" ref={heroRef}>
         <div className="hero-background">
           <div className="bg-layer current" style={{ backgroundImage: `url(${images[currentImageIndex]})`, opacity: isTransitioning ? 0 : 1, filter: isTransitioning ? 'blur(5px)' : 'blur(0px)', transform: isTransitioning ? 'rotate(2deg) scale(0.98) skew(3deg, 1deg)' : 'rotate(0deg) scale(1) skew(0deg, 0deg)' }}></div>
