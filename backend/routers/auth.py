@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, HTTPException
-from models.auth import LoginRequest, SignInRequest
+from models.auth import LoginRequest, SignUpRequest
 from models.user import User
 from database import get_db
 from sqlalchemy.orm import Session
@@ -28,8 +28,8 @@ async def login(data: LoginRequest, db: Session = Depends(get_db)):
     
     return {"status_code":200, "detail":"Login Successful"}
 
-@router.post("/signIn")
-async def signIn(data: SignInRequest, db: Session= Depends(get_db)):
+@router.post("/signUp")
+async def signUp(data: SignUpRequest, db: Session= Depends(get_db)):
     existing_user = db.query(User).filter(
         User.username == data.username
     ).first()

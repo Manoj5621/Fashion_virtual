@@ -4,7 +4,7 @@ class LoginRequest(BaseModel):
     username: str
     password: str
 
-class SignInRequest(BaseModel):
+class SignUpRequest(BaseModel):
     name: str
     username: str
     password: str
