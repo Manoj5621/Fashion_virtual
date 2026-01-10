@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from routers import tryon
 from fastapi.middleware.cors import CORSMiddleware
-from routers import Login
 
 app = FastAPI()
 
@@ -15,7 +14,6 @@ app.add_middleware(
 )
 
 app.include_router(tryon.router, prefix="/api")
-app.include_router(Login.router, prefix ="/api")
 
 @app.get("/")
 def root():
