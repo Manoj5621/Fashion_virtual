@@ -43,10 +43,15 @@ async def signUp(data: SignUpRequest, db: Session= Depends(get_db)):
     
     hashed_password = hash_password(data.password)
     
+    user_count = db.query(User).count()
+
+    role = 1 if user_count == 0 else 0
+
     newUser = User(
         name=data.name,
         username=data.username,
-        password=hashed_password
+        password=hashed_password,
+        role=role
     )
 
     db.add(newUser)
