@@ -8,4 +8,5 @@ class User(Base):
     name = Column(String(255))
     username = Column(String(50), unique=True, index=True)
     password = Column(String(255))
-    createdAt = Column(DateTime, nullable=False , server_default=func.now())
+    createdAt = Column(DateTime, nullable=False, server_default=func.now())
+    role = Column(Integer, nullable=False, default=0)

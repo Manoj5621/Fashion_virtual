@@ -4,6 +4,7 @@ from models.auth import LoginRequest, SignUpRequest
 from models.user import User
 from database import get_db
 from sqlalchemy.orm import Session
+from utils.security import hash_password, verify_password
 
 load_dotenv()
 
@@ -23,7 +24,7 @@ async def login(data: LoginRequest, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=401, detail="No user found, please SignIn")
 
-    if user.password != data.password:
+    if not verify_password(data.password, user.password):
         raise HTTPException(status_code=401, detail="Invalid Password, please try again with correct password")
     
     return {"status_code":200, "detail":"Login Successful"}
@@ -40,10 +41,17 @@ async def signUp(data: SignUpRequest, db: Session= Depends(get_db)):
             detail="User already present, you need use different username or try to login"
         )
     
+    hashed_password = hash_password(data.password)
+    
+    user_count = db.query(User).count()
+
+    role = 1 if user_count == 0 else 0
+
     newUser = User(
         name=data.name,
         username=data.username,
-        password=data.password
+        password=hashed_password,
+        role=role
     )
 
     db.add(newUser)
