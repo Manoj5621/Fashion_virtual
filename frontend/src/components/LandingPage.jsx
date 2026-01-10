@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 import {
   Button,
   Typography,
@@ -45,6 +46,7 @@ const { Title, Text, Paragraph } = Typography;
 
 function LandingPage() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [scrollY, setScrollY] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [nextImageIndex, setNextImageIndex] = useState(1);
@@ -182,8 +184,18 @@ function LandingPage() {
     navigate('/try-on');
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <div className="landing-page">
+      <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 1000 }}>
+        <Button onClick={handleLogout} type="primary" danger>
+          Logout
+        </Button>
+      </div>
       <section className="hero-section" ref={heroRef}>
         <div className="hero-background">
           <div className="bg-layer current" style={{ backgroundImage: `url(${images[currentImageIndex]})`, opacity: isTransitioning ? 0 : 1, filter: isTransitioning ? 'blur(5px)' : 'blur(0px)', transform: isTransitioning ? 'rotate(2deg) scale(0.98) skew(3deg, 1deg)' : 'rotate(0deg) scale(1) skew(0deg, 0deg)' }}></div>
@@ -294,9 +306,6 @@ function LandingPage() {
 
             {/* Use Cases */}
       <section className="usecases-section" ref={usecasesRef}>
-        <video className="usecases-video" autoPlay loop muted playsInline>
-          <source src={bgVideo} type="video/mp4" />
-        </video>
         <div className="usecases-content">
           <div className="section-header">
             <Title level={2} className="section-title rainbow-text">
@@ -305,16 +314,16 @@ function LandingPage() {
           </div>
           
           <div className="usecases-container">
-            <Paragraph style={{ color: 'black', textShadow: '2px 2px 4px rgba(255,255,255,0.8)', fontSize: '1.2rem', marginBottom: '24px' }}>
+            <Paragraph style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.8)', fontSize: '1.2rem', marginBottom: '24px' }}>
               Our AI-powered virtual try-on technology is revolutionizing multiple industries by providing immersive, photorealistic simulations that bridge the gap between online browsing and real-life experiences.
             </Paragraph>
-            <Paragraph style={{ color: 'black', textShadow: '2px 2px 4px rgba(255,255,255,0.8)', fontSize: '1.2rem', marginBottom: '24px' }}>
+            <Paragraph style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.8)', fontSize: '1.2rem', marginBottom: '24px' }}>
               In e-commerce, it dramatically reduces return rates by enabling customers to visualize products accurately, leading to higher conversion rates and improved customer satisfaction across platforms.
             </Paragraph>
-            <Paragraph style={{ color: 'black', textShadow: '2px 2px 4px rgba(255,255,255,0.8)', fontSize: '1.2rem', marginBottom: '24px' }}>
+            <Paragraph style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.8)', fontSize: '1.2rem', marginBottom: '24px' }}>
               Fashion retailers leverage virtual fitting rooms for enhanced shopping experiences, while social commerce platforms benefit from shareable try-on results that boost user engagement and drive viral marketing.
             </Paragraph>
-            <Paragraph style={{ color: 'black', textShadow: '2px 2px 4px rgba(255,255,255,0.8)', fontSize: '1.2rem', marginBottom: '24px' }}>
+            <Paragraph style={{ color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.8)', fontSize: '1.2rem', marginBottom: '24px' }}>
               Beyond fashion, this technology extends to furniture, accessories, and other product categories, transforming how consumers interact with digital commerce and revolutionizing retail experiences across various sectors.
             </Paragraph>
           </div>
