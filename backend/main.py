@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-from routers import tryon
+from routers import tryon, auth
 from fastapi.middleware.cors import CORSMiddleware
-from routers import Login
+from database import engine, Base
 
+Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 # Allow frontend to connect
@@ -15,7 +16,7 @@ app.add_middleware(
 )
 
 app.include_router(tryon.router, prefix="/api")
-app.include_router(Login.router, prefix ="/api")
+app.include_router(auth.router, prefix ="/api")
 
 @app.get("/")
 def root():
