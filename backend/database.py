@@ -16,6 +16,9 @@ DATABASE_URL = (
     f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
 
+#DATABASE_URL = "mysql+mysqlconnector://root:password@localhost/fashionvirtual"
+
+
 echoTF = True if os.getenv("PLATFORM") == "development" else False
 print("echoTF : ", echoTF)
 engine = create_engine(DATABASE_URL, echo=echoTF)
