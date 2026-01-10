@@ -11,8 +11,24 @@ load_dotenv()
 router = APIRouter()
 
 @router.get("/me")
-async def me():
-    return "Hello"
+async def me(username: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(
+        username == User.username
+    ).first()
+    
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail= "No user found"
+        )
+
+    return {
+        "createdAt": user.createdAt,
+        "username": user.username,
+        "name": user.name,
+        "id": user.id,
+        "role": user.role
+    }
 
 @router.post("/login")
 async def login(data: LoginRequest, db: Session = Depends(get_db)):
@@ -27,7 +43,7 @@ async def login(data: LoginRequest, db: Session = Depends(get_db)):
     if not verify_password(data.password, user.password):
         raise HTTPException(status_code=401, detail="Invalid Password, please try again with correct password")
     
-    return {"status_code":200, "detail":"Login Successful"}
+    return {"status_code":200, "detail":"Login Successful", "userId": user.id}
 
 @router.post("/signUp")
 async def signUp(data: SignUpRequest, db: Session= Depends(get_db)):
