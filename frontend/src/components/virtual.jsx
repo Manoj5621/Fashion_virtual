@@ -29,7 +29,6 @@ import {
 import ImageUpload from "./ImageUpload";
 import Footer from './Footer';
 import LandingPage from "./LandingPage"; // Added import
-const bgVideo = '/design/8.mp4';
 
 const { Header, Content} = Layout;
 const { Title, Text } = Typography;
@@ -238,26 +237,7 @@ function TryOnPage() {
             unCheckedChildren={<BulbOutlined />}
           />
         </Header>
-        <Content style={{ padding: "2rem 1rem", position: 'relative' }}>
-          <video
-            src={bgVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              zIndex: -1,
-            }}
-            disablePictureInPicture
-            controls={false}
-            preload="auto"
-          />
+        <Content style={{ padding: "2rem 1rem", position: 'relative', backgroundImage: `url('/design/8.jpg')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div style={{
             position: 'absolute',
             top: 0,
