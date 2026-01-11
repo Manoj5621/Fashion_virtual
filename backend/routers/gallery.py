@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from database import get_db
 from schemas.user import User, TryOnImage
@@ -31,7 +32,7 @@ async def gallery(username: str, request: Request, db: Session = Depends(get_db)
 
         for img in images:
             if img.userid not in usernames:
-                usernames[img.userid] = db.query(User).filter(User.id==user.id).first()
+                usernames[img.userid] = db.query(User).filter(User.id==img.userid).first()
 
             username = usernames[img.userid].username
 
@@ -66,3 +67,11 @@ async def gallery(username: str, request: Request, db: Session = Depends(get_db)
         "detail": "Here your Gallery",
         "gallery": gallery
     }
+
+@router.get("/download/{path:path}")
+async def download_file(path: str):
+    file_path = f"uploads/{path}"
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="File not found")
+    filename = os.path.basename(file_path)
+    return FileResponse(file_path, media_type='application/octet-stream', filename=filename)
